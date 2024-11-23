@@ -1,6 +1,6 @@
 // Unsplash API integration
 let unsplash = {
-  photoApiKey: "Unsplash_API_key", // Replace with your Unsplash API key
+  photoApiKey: "Unsplash_API_key", // Replace with your Unsplash API key for getting dynamic background
   fetchPhoto: function (query) {
       const unsplashURL = `https://api.unsplash.com/photos/random?query=${query}&client_id=${this.photoApiKey}`;
       fetch(unsplashURL)
@@ -15,7 +15,7 @@ let unsplash = {
     const overlay = document.createElement("div");
     overlay.classList.add("overlay");
     document.body.appendChild(overlay);
-    const imageUrl = `${data.urls.raw}&w=1920&h=1080&fit=crop`; // Resized image URL
+    const imageUrl = `${data.urls.raw}&w=1920&h=1080&fit=crop`; // Resized image URL so that background image is not zoomed
     setTimeout(() => {
         document.body.style.backgroundImage = `url('${imageUrl}')`;
     }, 100);
@@ -23,9 +23,9 @@ let unsplash = {
 
 };
 
-// Weather and DOM integration
+// Weather and DOM integration through OpenWeather API key
 const weather = {
-  apiKey: "Open Weather API key", // Replace with your OpenWeather API key
+  apiKey: "Open Weather API key", // Replace with your OpenWeather API key to get information about the weather in real time
   weatherDiv: document.querySelector(".weather"),
   cityName: document.querySelector(".city"),
   temp: document.querySelector(".temp"),
@@ -50,7 +50,7 @@ const weather = {
           if (!response.ok) throw new Error("Location not found");
           const data = await response.json();
 
-          // Update the DOM with weather details
+          // Update the DOM with weather details 
           this.cityName.innerText = `Weather in ${data.name}`;
           this.temp.innerText = `${data.main.temp}°C`;
           this.description.innerText = data.weather[0].description;
@@ -58,7 +58,7 @@ const weather = {
           this.wind.innerText = `Wind speed: ${data.wind.speed} km/h`;
           this.icon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`;
 
-          // Fetch and apply Unsplash background
+          // Fetch and apply Unsplash background for photos 
           unsplash.fetchPhoto(data.name);
 
           this.weatherDiv.classList.remove("loading");
